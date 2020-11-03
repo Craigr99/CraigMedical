@@ -40,6 +40,18 @@ class UserSeeder extends Seeder
         $doctor->postal_address = '123456';
         $doctor->phone_num = '0852785998';
         $doctor->password = Hash::make('secret');
+        $doctor->start_date = '2020-11-03';
+        $doctor->save();
+        $doctor->roles()->attach($role_doctor);
+
+        $doctor = new User();
+        $doctor->f_name = 'Doctor';
+        $doctor->l_name = 'John';
+        $doctor->email = 'doctorjohn@example.com';
+        $doctor->postal_address = '123456';
+        $doctor->phone_num = '085234546';
+        $doctor->password = Hash::make('secret');
+        $doctor->start_date = '2019-11-01';
         $doctor->save();
         $doctor->roles()->attach($role_doctor);
 
