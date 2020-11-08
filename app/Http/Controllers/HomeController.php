@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
+use Illuminate\Http\Request;
+
 class HomeController extends Controller
 {
     /**
@@ -19,10 +22,17 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        // $doctors = Doctor::latest()->get();
+        $user = Auth::user();
+        $home = 'home';
 
-        return view('home');
+        if ($user->hasRole('admin')) {
+            $home = 'admin.home';
+        } else {
+            $home = 'home';
+        }
+
+        return redirect()->route($home);
     }
 }

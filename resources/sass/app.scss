@@ -1,8 +1,21 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url("https://fonts.googleapis.com/css?family=Nunito");
 
 // Variables
-@import 'variables';
+@import "variables";
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+@import "~bootstrap/scss/bootstrap";
+
+.input-delete {
+    border: none;
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+    color: #3490dc;
+
+    &:hover {
+        color: #1d68a7;
+        text-decoration: underline;
+    }
+}

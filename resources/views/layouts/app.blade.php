@@ -18,7 +18,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -40,13 +40,13 @@
                         <!-- Left Side Of Navbar -->
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('doctors.index') }}">Doctors</a>
+                                <a class="nav-link" href="{{ route('admin.doctors.index') }}">Doctors</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('patients.index') }}">Patients</a>
+                                <a class="nav-link" href="{{ route('admin.patients.index') }}">Patients</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('visits.index') }}">Visits</a>
+                                <a class="nav-link" href="{{ route('admin.visits.index') }}">Visits</a>
                             </li>
                         </ul>
                     @endauth
@@ -75,7 +75,7 @@
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
-                                                                                                 document.getElementById('logout-form').submit();">
+                                                                                                                                         document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -12,18 +13,25 @@ class DoctorController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('role:admin');
     }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function home()
+    {
+        return view('admin.home');
+    }
+
     public function index()
     {
-        // Get users that belong to the role named 'doctor'
+        // Get all users that have a role with the name 'doctor'
         $doctors = Role::where('name', 'doctor')->first()->users()->get();
 
-        return view('doctors.index', [
+        return view('admin.doctors.index', [
             'doctors' => $doctors,
         ]);
     }
@@ -36,7 +44,7 @@ class DoctorController extends Controller
     public function create()
     {
 
-        return view('doctors.create');
+        return view('admin.doctors.create');
     }
 
     /**
@@ -53,10 +61,20 @@ class DoctorController extends Controller
         $rules = [
             'f_name' => 'required|string|min:2|max:40',
             'l_name' => 'required|string|min:2|max:40',
+            'address' => 'required|string|min:5|max:40',
+            'phone' => 'required|numeric|min:8',
+            'email' => 'required|email|min:5|max:50|unique:users,email',
+            'start_date' => 'required|date',
+        ];
+
+        //custom validation error messages
+        $messages = [
+            'f_name.required' => 'The first name field is required.', //syntax: field_name.rule
+            'l_name.required' => 'The surname field is required.', //syntax: field_name.rule
         ];
 
         //First Validate the form data
-        $request->validate($rules);
+        $request->validate($rules, $messages);
         //Create a Doctor
         $doctor = new User;
         $doctor->f_name = $request->f_name;
@@ -70,7 +88,7 @@ class DoctorController extends Controller
         $doctor->roles()->attach(Role::where('name', 'doctor')->first());
 
         return redirect()
-            ->route('doctors.index')
+            ->route('admin.doctors.index')
             ->with('status', 'Created a new Doctor!');
     }
 
@@ -116,6 +134,9 @@ class DoctorController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $doctor = User::findOrFail($id);
+        $doctor->delete();
+
+        return redirect()->route('admin.doctors.index');
     }
 }
