@@ -22,4 +22,8 @@ Route::put('/doctors/{id}', [AdminDoctorController::class, 'update'])->name('adm
 Route::delete('/doctors/{id}', [AdminDoctorController::class, 'destroy'])->name('admin.doctors.destroy');
 
 Route::get('/patients', [AdminPatientController::class, 'index'])->name('admin.patients.index')->middleware('auth');
-Route::get('/visits', [AdminVisitController::class, 'index'])->name('admin.visits.index')->middleware('auth');
+
+// Visits routes for admin
+Route::get('/visits', [AdminVisitController::class, 'index'])->name('admin.visits.index');
+Route::get('/visits/create', [AdminVisitController::class, 'create'])->name('admin.visits.create');
+Route::post('/visits', [AdminVisitController::class, 'store'])->name('admin.visits.store');

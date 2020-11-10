@@ -100,7 +100,11 @@ class DoctorController extends Controller
      */
     public function show($id)
     {
-        //
+        $doctor = User::findOrFail($id);
+
+        return view('admin.doctors.show', [
+            'doctor' => $doctor,
+        ]);
     }
 
     /**

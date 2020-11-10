@@ -2,7 +2,6 @@
 
 @section('content')
     <div class="container mt-md-5">
-
         <div class="card">
             <div class="card-body">
                 <h3 class="card-title">Create Doctor</h3>
