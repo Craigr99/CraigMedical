@@ -21,11 +21,6 @@ class DoctorController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function home()
-    {
-        return view('admin.home');
-    }
-
     public function index()
     {
         // Get all users that have a role with the name 'doctor'

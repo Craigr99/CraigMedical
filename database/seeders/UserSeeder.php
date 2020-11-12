@@ -32,7 +32,7 @@ class UserSeeder extends Seeder
         $admin->save();
         $admin->roles()->attach($role_admin);
 
-        // Doctor user
+        // Doctor users
         $doctor = new User();
         $doctor->f_name = 'Doctor';
         $doctor->l_name = 'Nick';

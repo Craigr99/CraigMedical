@@ -10,7 +10,10 @@ Auth::routes();
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/admin/home', [AdminDoctorController::class, 'home'])->name('admin.home');
+// Routes to redirect users to their dashboard
+Route::get('/admin/home', [App\Http\Controllers\Admin\HomeController::class, 'index'])->name('admin.home');
+Route::get('/doctor/home', [App\Http\Controllers\Doctor\HomeController::class, 'index'])->name('doctor.home');
+Route::get('/patient/home', [App\Http\Controllers\Patient\HomeController::class, 'index'])->name('patient.home');
 
 // Doctors routes for admin
 Route::get('/doctors', [AdminDoctorController::class, 'index'])->name('admin.doctors.index');
@@ -21,7 +24,8 @@ Route::get('/doctors/{id}/edit', [AdminDoctorController::class, 'edit'])->name('
 Route::put('/doctors/{id}', [AdminDoctorController::class, 'update'])->name('admin.doctors.update');
 Route::delete('/doctors/{id}', [AdminDoctorController::class, 'destroy'])->name('admin.doctors.destroy');
 
-Route::get('/patients', [AdminPatientController::class, 'index'])->name('admin.patients.index')->middleware('auth');
+// Patient routes for admin
+Route::get('/patients', [AdminPatientController::class, 'index'])->name('admin.patients.index');
 
 // Visits routes for admin
 Route::get('/visits', [AdminVisitController::class, 'index'])->name('admin.visits.index');
