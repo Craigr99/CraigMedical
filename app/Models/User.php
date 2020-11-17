@@ -43,6 +43,27 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * Get the doctor record associated with the user.
+     */
+    public function doctor()
+    {
+        return $this->hasOne('App\Models\Doctor');
+    }
+
+    /**
+     * Get the patient record associated with the user.
+     */
+
+    public function patient()
+    {
+        return $this->hasOne('App\Models\Patient');
+    }
+
+    /**
+     * Get the roles that a user has.
+     */
+
     public function roles()
     {
         return $this->belongsToMany('App\Models\Role', 'user_role');

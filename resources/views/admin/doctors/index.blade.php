@@ -25,19 +25,19 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($doctors as $doctor)
+                                @foreach ($doctors as $user)
                                     <tr>
-                                        <td>{{ $doctor->f_name }} {{ $doctor->l_name }}</td>
-                                        <td>{{ Str::limit($doctor->postal_address, 15) }}</td>
-                                        <td>{{ $doctor->phone_num }}</td>
-                                        <td>{{ $doctor->email }}</td>
+                                        <td>{{ $user->f_name }} {{ $user->l_name }}</td>
+                                        <td>{{ Str::limit($user->postal_address, 15) }}</td>
+                                        <td>{{ $user->phone_num }}</td>
+                                        <td>{{ $user->email }}</td>
                                         {{-- Format date in DD/MM/YYYY
                                         --}}
-                                        <td>{{ date('d-m-Y', strtotime($doctor->start_date)) }}</td>
+                                        <td>{{ date('d-m-Y', strtotime($user->doctor->date_started)) }}</td>
                                         <td class="d-flex justify-content-lg-between">
-                                            <a href="{{ route('admin.doctors.show', $doctor->id) }}">View</a>
+                                            <a href="{{ route('admin.doctors.show', $user->id) }}">View</a>
                                             <a href="#">Edit</a>
-                                            <form method="POST" action="{{ route('admin.doctors.destroy', $doctor->id) }}">
+                                            <form method="POST" action="{{ route('admin.doctors.destroy', $user->id) }}">
                                                 <input type="hidden" value="DELETE" name="_method">
                                                 <input type="hidden" value="{{ csrf_token() }}" name="_token">
                                                 <input class="input-delete" type="submit" value="Delete">

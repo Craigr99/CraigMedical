@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Doctor;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class DoctorController extends Controller
 {
@@ -71,16 +73,21 @@ class DoctorController extends Controller
         //First Validate the form data
         $request->validate($rules, $messages);
         //Create a Doctor
-        $doctor = new User;
-        $doctor->f_name = $request->f_name;
-        $doctor->l_name = $request->l_name;
-        $doctor->postal_address = $request->address;
-        $doctor->phone_num = $request->phone;
-        $doctor->email = $request->email;
-        $doctor->start_date = $request->start_date;
-        $doctor->save(); // save it to the database.
+        $user = new User;
+        $user->f_name = $request->f_name;
+        $user->l_name = $request->l_name;
+        $user->postal_address = $request->address;
+        $user->phone_num = $request->phone;
+        $user->email = $request->email;
+        $user->password = Hash::make('secret');
+        $user->save(); // save it to the database.
         // attatch the user role of doctor
-        $doctor->roles()->attach(Role::where('name', 'doctor')->first());
+        $user->roles()->attach(Role::where('name', 'doctor')->first());
+
+        $doctor = new Doctor();
+        $doctor->date_started = $request->start_date;
+        $doctor->user_id = $user->id;
+        $doctor->save();
 
         return redirect()
             ->route('admin.doctors.index')
@@ -95,10 +102,10 @@ class DoctorController extends Controller
      */
     public function show($id)
     {
-        $doctor = User::findOrFail($id);
+        $user = User::findOrFail($id);
 
         return view('admin.doctors.show', [
-            'doctor' => $doctor,
+            'user' => $user,
         ]);
     }
 
@@ -133,8 +140,10 @@ class DoctorController extends Controller
      */
     public function destroy($id)
     {
-        $doctor = User::findOrFail($id);
+        $user = User::findOrFail($id);
+        $doctor = Doctor::where('user_id', $id);
         $doctor->delete();
+        $user->delete();
 
         return redirect()->route('admin.doctors.index');
     }

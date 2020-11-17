@@ -3,10 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use Illuminate\Http\Request;
 
 class PatientController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('role:admin');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +20,11 @@ class PatientController extends Controller
      */
     public function index()
     {
-        return view('admin.patients.index');
+        // Get all users that have a role with the name 'patient'
+        $users = Role::where('name', 'patient')->first()->users()->get();
+        return view('admin.patients.index', [
+            'users' => $users,
+        ]);
     }
 
     /**
@@ -24,7 +34,7 @@ class PatientController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.patients.create');
     }
 
     /**
@@ -35,7 +45,22 @@ class PatientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request);
+
+        //validation rules
+        $rules = [
+            'f_name' => 'required|string|min:2|max:40',
+            'l_name' => 'required|string|min:2|max:40',
+            'address' => 'required|string|min:5|max:40',
+            'phone' => 'required|numeric|min:8',
+            'email' => 'required|email|min:5|max:50|unique:users,email',
+            'insurance' => 'required|in:yes,no',
+            'insurance_name' => 'min:2|max:40',
+            'policy_num' => 'numeric|size:13',
+        ];
+
+        $request->validate($rules);
+
     }
 
     /**
