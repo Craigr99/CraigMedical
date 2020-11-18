@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Patient;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class PatientController extends Controller
 {
@@ -55,12 +58,46 @@ class PatientController extends Controller
             'phone' => 'required|numeric|min:8',
             'email' => 'required|email|min:5|max:50|unique:users,email',
             'insurance' => 'required|in:yes,no',
-            'insurance_name' => 'min:2|max:40',
-            'policy_num' => 'numeric|size:13',
+            'insurance_name' => 'nullable|min:2|max:40',
+            'policy_num' => 'nullable|numeric|digits:13',
         ];
 
-        $request->validate($rules);
+        //custom validation error messages
+        $messages = [
+            'f_name.required' => 'The first name field is required.', //syntax: field_name.rule
+            'l_name.required' => 'The surname field is required.', //syntax: field_name.rule
+            'policy_num.digits' => 'The Policy number must be 13 characters long.',
+        ];
 
+        $request->validate($rules, $messages);
+
+        //Create a User
+        $user = new User();
+        $user->f_name = $request->f_name;
+        $user->l_name = $request->l_name;
+        $user->postal_address = $request->address;
+        $user->phone_num = $request->phone;
+        $user->email = $request->email;
+        $user->password = Hash::make('secret');
+        $user->save();
+        $user->roles()->attach(Role::where('name', 'patient')->first());
+
+        // Create a Patient
+        $patient = new Patient();
+        // $patient->insurance = $request->insurance;
+        if ($request->insurance == 'yes') {
+            $patient->insurance == 1;
+        } else {
+            $patient->insurance == 0;
+        }
+        $patient->insurance_name = $request->insurance_name;
+        $patient->policy_num = $request->policy_num;
+        $patient->user_id = $user->id;
+        $patient->save();
+
+        return redirect()
+            ->route('admin.patients.index')
+            ->with('status', 'Created a new Doctor!');
     }
 
     /**

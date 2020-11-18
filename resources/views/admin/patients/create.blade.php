@@ -74,15 +74,19 @@
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label>Has Health Insurance</label>
+                            <label class="{{ $errors->has('insurance') ? 'is-invalid' : '' }}">Has Health Insurance</label>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="insurance" value="yes">
+                                <input name="insurance"
+                                    class="form-check-input {{ $errors->has('insurance') ? 'is-invalid' : '' }}"
+                                    type="radio" value="yes" {{ old('insurance') == 'yes' ? 'checked' : '' }}>
                                 <label class="form-check-label">
                                     Yes
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="insurance" value="no">
+                                <input name="insurance"
+                                    class="form-check-input {{ $errors->has('insurance') ? 'is-invalid' : '' }}"
+                                    type="radio" value="no" {{ old('insurance') == 'no' ? 'checked' : '' }}>
                                 <label class="form-check-label">
                                     No
                                 </label>

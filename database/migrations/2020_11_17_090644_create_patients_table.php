@@ -16,8 +16,8 @@ class CreatePatientsTable extends Migration
         Schema::create('patients', function (Blueprint $table) {
             $table->id();
             $table->boolean('insurance')->default(0); // defaults to false
-            $table->string('insurance_name');
-            $table->string('policy_num', 13);
+            $table->string('insurance_name')->nullable();
+            $table->string('policy_num', 13)->nullable();
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
 

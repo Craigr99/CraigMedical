@@ -59,7 +59,7 @@ class DoctorController extends Controller
             'f_name' => 'required|string|min:2|max:40',
             'l_name' => 'required|string|min:2|max:40',
             'address' => 'required|string|min:5|max:40',
-            'phone' => 'required|numeric|min:8',
+            'phone' => 'required|numeric|digits:10|',
             'email' => 'required|email|min:5|max:50|unique:users,email',
             'start_date' => 'required|date',
         ];
