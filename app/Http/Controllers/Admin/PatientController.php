@@ -68,6 +68,7 @@ class PatientController extends Controller
             'l_name.required' => 'The surname field is required.', //syntax: field_name.rule
             'policy_num.required' => 'The policy number field is required.',
             'policy_num.digits' => 'The Policy number must be 13 characters long.',
+            'policy_num.numeric' => 'The Policy number must be a number.',
         ];
 
         $request->validate($rules, $messages);
@@ -86,11 +87,12 @@ class PatientController extends Controller
         // Create a Patient
         $patient = new Patient();
         // $patient->insurance = $request->insurance;
-        if ($request->insurance == 'yes') {
-            $patient->insurance == 1;
-        } else {
-            $patient->insurance == 0;
+        if ($request->insurance === "yes") {
+            $patient->insurance = 1;
+        } else if ($request->insurance === "no") {
+            $patient->insurance = 0;
         }
+
         $patient->insurance_name = $request->insurance_name;
         $patient->policy_num = $request->policy_num;
         $patient->user_id = $user->id;
@@ -124,7 +126,11 @@ class PatientController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        return view('admin.patients.edit', [
+            'user' => $user,
+        ]);
     }
 
     /**
@@ -136,7 +142,40 @@ class PatientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::findOrFail($id);
+        $request->validate([
+            'f_name' => 'required|string|min:2|max:40',
+            'l_name' => 'required|string|min:2|max:40',
+            'address' => 'required|string|min:5|max:40',
+            'phone' => 'required|numeric|digits:10|',
+            'email' => 'required|email|min:5|max:50|unique:users,email,' . $id,
+            'insurance' => 'required|in:yes,no',
+            'insurance_name' => 'exclude_if:insurance,no|min:2|max:40',
+            'policy_num' => 'exclude_if:insurance,no|numeric|digits:13|unique:patients,policy_num,' . $user->patient->id,
+        ]);
+
+        $user->f_name = $request->input('f_name');
+        $user->l_name = $request->input('l_name');
+        $user->postal_address = $request->input('address');
+        $user->phone_num = $request->input('phone');
+        $user->email = $request->input('email');
+
+        $patient = Patient::where('user_id', $id)->first();
+        // IF insurance is ticked yes
+        if ($request->insurance === "yes") {
+            $patient->insurance = 1;
+            $patient->insurance_name = $request->input('insurance_name');
+            $patient->policy_num = $request->input('policy_num');
+        } else if ($request->insurance === "no") {
+            $patient->insurance = 0;
+            //Set insurance values to NULL
+            $patient->insurance_name = null;
+            $patient->policy_num = null;
+        }
+        $user->save();
+        $patient->save();
+
+        return redirect()->route('admin.patients.index');
     }
 
     /**

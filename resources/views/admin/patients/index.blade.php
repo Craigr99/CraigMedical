@@ -34,16 +34,11 @@
                                         <td>{{ Str::limit($user->postal_address, 15) }}</td>
                                         <td>{{ $user->phone_num }}</td>
                                         <td>{{ $user->email }}</td>
-                                        {{-- @if ($user->patient->insurance == 1)
-                                            <td>Yes</td>
-                                            @else
-                                            <td>No</td>
-                                        @endif --}}
                                         <td>{{ $user->patient->insurance_name }}</td>
                                         <td>{{ $user->patient->policy_num }}</td>
                                         <td class="d-flex justify-content-lg-between">
                                             <a href="{{ route('admin.patients.show', $user->id) }}">View</a>
-                                            <a href="#">Edit</a>
+                                            <a href="{{ route('admin.patients.edit', $user->id) }}">Edit</a>
                                             <form method="POST" action="{{ route('admin.patients.destroy', $user->id) }}">
                                                 <input type="hidden" value="DELETE" name="_method">
                                                 <input type="hidden" value="{{ csrf_token() }}" name="_token">

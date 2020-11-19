@@ -24,11 +24,14 @@
                                 <h5 class="">Email</h5>
                                 {{ $user->email }}
                             </li>
-                            {{-- <li
-                                class="list-group-item d-flex justify-content-between align-items-center">
-                                <h5 class="">Start date</h5>
-                                {{ date('d-m-Y', strtotime($user->doctor->date_started)) }}
-                            </li> --}}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <h5 class="">Policy Number</h5>
+                                {{ $user->patient->policy_num }}
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <h5 class="">Insurance Company</h5>
+                                {{ $user->patient->insurance_name }}
+                            </li>
                         </ul>
                     </div>
 
