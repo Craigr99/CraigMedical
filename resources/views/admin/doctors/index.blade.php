@@ -36,7 +36,7 @@
                                         <td>{{ date('d-m-Y', strtotime($user->doctor->date_started)) }}</td>
                                         <td class="d-flex justify-content-lg-between">
                                             <a href="{{ route('admin.doctors.show', $user->id) }}">View</a>
-                                            <a href="#">Edit</a>
+                                            <a href="{{ route('admin.doctors.edit', $user->id) }}">Edit</a>
                                             <form method="POST" action="{{ route('admin.doctors.destroy', $user->id) }}">
                                                 <input type="hidden" value="DELETE" name="_method">
                                                 <input type="hidden" value="{{ csrf_token() }}" name="_token">

@@ -28,6 +28,10 @@ Route::delete('/doctors/{id}', [AdminDoctorController::class, 'destroy'])->name(
 Route::get('/patients', [AdminPatientController::class, 'index'])->name('admin.patients.index');
 Route::get('/patients/create', [AdminPatientController::class, 'create'])->name('admin.patients.create');
 Route::post('/patients', [AdminPatientController::class, 'store'])->name('admin.patients.store');
+Route::get('/patients/{id}', [AdminPatientController::class, 'show'])->name('admin.patients.show');
+Route::get('/patients/{id}/edit', [AdminPatientController::class, 'edit'])->name('admin.patients.edit');
+Route::put('/patients/{id}', [AdminPatientController::class, 'update'])->name('admin.patients.update');
+Route::delete('/patients/{id}', [AdminPatientController::class, 'destroy'])->name('admin.patients.destroy');
 
 // Visits routes for admin
 Route::get('/visits', [AdminVisitController::class, 'index'])->name('admin.visits.index');

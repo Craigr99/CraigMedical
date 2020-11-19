@@ -42,9 +42,9 @@
                                         <td>{{ $user->patient->insurance_name }}</td>
                                         <td>{{ $user->patient->policy_num }}</td>
                                         <td class="d-flex justify-content-lg-between">
-                                            <a href="{{ route('admin.doctors.show', $user->id) }}">View</a>
+                                            <a href="{{ route('admin.patients.show', $user->id) }}">View</a>
                                             <a href="#">Edit</a>
-                                            <form method="POST" action="{{ route('admin.doctors.destroy', $user->id) }}">
+                                            <form method="POST" action="{{ route('admin.patients.destroy', $user->id) }}">
                                                 <input type="hidden" value="DELETE" name="_method">
                                                 <input type="hidden" value="{{ csrf_token() }}" name="_token">
                                                 <input class="input-delete" type="submit" value="Delete">

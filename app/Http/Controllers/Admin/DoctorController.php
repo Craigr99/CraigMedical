@@ -72,8 +72,8 @@ class DoctorController extends Controller
 
         //First Validate the form data
         $request->validate($rules, $messages);
-        //Create a Doctor
-        $user = new User;
+        //Create a User
+        $user = new User();
         $user->f_name = $request->f_name;
         $user->l_name = $request->l_name;
         $user->postal_address = $request->address;
@@ -117,7 +117,11 @@ class DoctorController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        return view('admin.doctors.edit', [
+            'user' => $user,
+        ]);
     }
 
     /**
@@ -129,7 +133,28 @@ class DoctorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'f_name' => 'required|string|min:2|max:40',
+            'l_name' => 'required|string|min:2|max:40',
+            'address' => 'required|string|min:5|max:40',
+            'phone' => 'required|numeric|digits:10|',
+            'email' => 'required|email|min:5|max:50|unique:users,email,' . $id,
+            'start_date' => 'required|date',
+        ]);
+
+        $user = User::findOrFail($id);
+        $user->f_name = $request->input('f_name');
+        $user->l_name = $request->input('l_name');
+        $user->postal_address = $request->input('address');
+        $user->phone_num = $request->input('phone');
+        $user->email = $request->input('email');
+
+        $doctor = Doctor::where('user_id', $id)->first();
+        $doctor->date_started = $request->input('start_date');
+        $user->save();
+        $doctor->save();
+
+        return redirect()->route('admin.doctors.index');
     }
 
     /**

@@ -58,14 +58,15 @@ class PatientController extends Controller
             'phone' => 'required|numeric|min:8',
             'email' => 'required|email|min:5|max:50|unique:users,email',
             'insurance' => 'required|in:yes,no',
-            'insurance_name' => 'nullable|min:2|max:40',
-            'policy_num' => 'nullable|numeric|digits:13',
+            'insurance_name' => 'exclude_if:insurance,no|min:2|max:40',
+            'policy_num' => 'exclude_if:insurance,no|numeric|digits:13|unique:patients,policy_num',
         ];
 
         //custom validation error messages
         $messages = [
             'f_name.required' => 'The first name field is required.', //syntax: field_name.rule
             'l_name.required' => 'The surname field is required.', //syntax: field_name.rule
+            'policy_num.required' => 'The policy number field is required.',
             'policy_num.digits' => 'The Policy number must be 13 characters long.',
         ];
 
@@ -97,7 +98,7 @@ class PatientController extends Controller
 
         return redirect()
             ->route('admin.patients.index')
-            ->with('status', 'Created a new Doctor!');
+            ->with('status', 'Created a new Patient!');
     }
 
     /**
@@ -108,7 +109,11 @@ class PatientController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        return view('admin.patients.show', [
+            'user' => $user,
+        ]);
     }
 
     /**
@@ -142,6 +147,11 @@ class PatientController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+        $patient = Patient::where('user_id', $id);
+        $patient->delete();
+        $user->delete();
+
+        return redirect()->route('admin.patients.index');
     }
 }
