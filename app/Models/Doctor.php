@@ -9,7 +9,7 @@ class Doctor extends Model
 {
     use HasFactory;
 
-    public function users()
+    public function user()
     {
         return $this->belongsTo('App\Models\User');
     }

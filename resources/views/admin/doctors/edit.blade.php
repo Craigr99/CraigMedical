@@ -6,7 +6,7 @@
             <div class="card-body">
                 <h3 class="card-title">Edit Doctor</h3>
 
-                <form action="{{ route('admin.doctors.update', $user->id) }}" method="post">
+                <form action="{{ route('admin.doctors.update', $doctor->user_id) }}" method="post">
                     @csrf
                     <input type="hidden" name="_method" value="PUT">
 
@@ -15,7 +15,7 @@
                             <label for="f_name">First name</label>
                             <input name="f_name" type="text"
                                 class="form-control {{ $errors->has('f_name') ? 'is-invalid' : '' }} {{ $errors->has('f_name') ? 'is-invalid' : '' }}"
-                                id="f_name" value="{{ old('f_name', $user->f_name) }}">
+                                id="f_name" value="{{ old('f_name', $doctor->user->f_name) }}">
                             @if ($errors->has('f_name'))
                                 <span class="invalid-feedback">
                                     {{ $errors->first('f_name') }}
@@ -26,7 +26,7 @@
                             <label for="l_name">Surname</label>
                             <input name="l_name" type="text"
                                 class="form-control {{ $errors->has('l_name') ? 'is-invalid' : '' }}" id="l_name"
-                                value="{{ old('l_name', $user->l_name) }}">
+                                value="{{ old('l_name', $doctor->user->l_name) }}">
                             @if ($errors->has('l_name'))
                                 <span class="invalid-feedback">
                                     {{ $errors->first('l_name') }}
@@ -40,7 +40,7 @@
                             <label for="address">Address</label>
                             <input name="address" type="text"
                                 class="form-control {{ $errors->has('address') ? 'is-invalid' : '' }}" id="address"
-                                value="{{ old('address', $user->postal_address) }}">
+                                value="{{ old('address', $doctor->user->postal_address) }}">
                             @if ($errors->has('address'))
                                 <span class="invalid-feedback">
                                     {{ $errors->first('address') }}
@@ -54,7 +54,7 @@
                             <label for="phone">Phone</label>
                             <input name="phone" type="text"
                                 class="form-control {{ $errors->has('phone') ? 'is-invalid' : '' }}" id="phone"
-                                value="{{ old('phone', $user->phone_num) }}">
+                                value="{{ old('phone', $doctor->user->phone_num) }}">
                             @if ($errors->has('phone'))
                                 <span class="invalid-feedback">
                                     {{ $errors->first('phone') }}
@@ -65,7 +65,7 @@
                             <label for="email">Email</label>
                             <input name="email" type="email"
                                 class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" id="email"
-                                value="{{ old('email', $user->email) }}">
+                                value="{{ old('email', $doctor->user->email) }}">
                             @if ($errors->has('email'))
                                 <span class="invalid-feedback">
                                     {{ $errors->first('email') }}
@@ -79,7 +79,7 @@
                             <label for="start_date">Start date</label>
                             <input name="start_date" type="date"
                                 class="form-control {{ $errors->has('start_date') ? 'is-invalid' : '' }}" id="start_date"
-                                value="{{ old('start_date', $user->doctor->date_started) }}">
+                                value="{{ old('start_date', $doctor->date_started) }}">
                             @if ($errors->has('start_date'))
                                 <span class="invalid-feedback">
                                     {{ $errors->first('start_date') }}

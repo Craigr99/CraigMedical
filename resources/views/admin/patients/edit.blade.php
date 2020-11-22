@@ -6,7 +6,7 @@
             <div class="card-body">
                 <h3 class="card-title">Edit Patient</h3>
 
-                <form action="{{ route('admin.patients.update', $user->id) }}" method="post">
+                <form action="{{ route('admin.patients.update', $patient->user->id) }}" method="post">
                     @csrf
                     <input type="hidden" name="_method" value="PUT">
 
@@ -15,7 +15,7 @@
                             <label for="f_name">First name</label>
                             <input name="f_name" type="text"
                                 class="form-control {{ $errors->has('f_name') ? 'is-invalid' : '' }} {{ $errors->has('f_name') ? 'is-invalid' : '' }}"
-                                id="f_name" value="{{ old('f_name', $user->f_name) }}">
+                                id="f_name" value="{{ old('f_name', $patient->user->f_name) }}">
                             @if ($errors->has('f_name'))
                                 <span class="invalid-feedback">
                                     {{ $errors->first('f_name') }}
@@ -26,7 +26,7 @@
                             <label for="l_name">Surname</label>
                             <input name="l_name" type="text"
                                 class="form-control {{ $errors->has('l_name') ? 'is-invalid' : '' }}" id="l_name"
-                                value="{{ old('l_name', $user->l_name) }}">
+                                value="{{ old('l_name', $patient->user->l_name) }}">
                             @if ($errors->has('l_name'))
                                 <span class="invalid-feedback">
                                     {{ $errors->first('l_name') }}
@@ -40,7 +40,7 @@
                             <label for="address">Address</label>
                             <input name="address" type="text"
                                 class="form-control {{ $errors->has('address') ? 'is-invalid' : '' }}" id="address"
-                                value="{{ old('address', $user->postal_address) }}">
+                                value="{{ old('address', $patient->user->postal_address) }}">
                             @if ($errors->has('address'))
                                 <span class="invalid-feedback">
                                     {{ $errors->first('address') }}
@@ -54,7 +54,7 @@
                             <label for="phone">Phone</label>
                             <input name="phone" type="text"
                                 class="form-control {{ $errors->has('phone') ? 'is-invalid' : '' }}" id="phone"
-                                value="{{ old('phone', $user->phone_num) }}">
+                                value="{{ old('phone', $patient->user->phone_num) }}">
                             @if ($errors->has('phone'))
                                 <span class="invalid-feedback">
                                     {{ $errors->first('phone') }}
@@ -65,7 +65,7 @@
                             <label for="email">Email</label>
                             <input name="email" type="email"
                                 class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" id="email"
-                                value="{{ old('email', $user->email) }}">
+                                value="{{ old('email', $patient->user->email) }}">
                             @if ($errors->has('email'))
                                 <span class="invalid-feedback">
                                     {{ $errors->first('email') }}
@@ -81,7 +81,7 @@
                                 <input name="insurance"
                                     class="form-check-input {{ $errors->has('insurance') ? 'is-invalid' : '' }}"
                                     type="radio" value="yes"
-                                    {{ old('insurance', $user->patient->insurance) == '1' || old('insurance', $user->patient->insurance) == 'yes' ? 'checked' : '' }}>
+                                    {{ old('insurance', $patient->insurance) == '1' || old('insurance', $patient->insurance) == 'yes' ? 'checked' : '' }}>
                                 <label class="form-check-label">
                                     Yes
                                 </label>
@@ -90,7 +90,7 @@
                                 <input name="insurance"
                                     class="form-check-input {{ $errors->has('insurance') ? 'is-invalid' : '' }}"
                                     type="radio" value="no"
-                                    {{ old('insurance', $user->patient->insurance) == '0' ? 'checked' : '' }}>
+                                    {{ old('insurance', $patient->insurance) == '0' ? 'checked' : '' }}>
                                 <label class="form-check-label">
                                     No
                                 </label>
@@ -108,7 +108,7 @@
                             <label for="insurance_name">Insurance Name</label>
                             <input name="insurance_name" type="text"
                                 class="form-control {{ $errors->has('insurance_name') ? 'is-invalid' : '' }}"
-                                id="insurance_name" value="{{ old('insurance_name', $user->patient->insurance_name) }}">
+                                id="insurance_name" value="{{ old('insurance_name', $patient->insurance_name) }}">
                             @if ($errors->has('insurance_name'))
                                 <span class="invalid-feedback">
                                     {{ $errors->first('insurance_name') }}
@@ -122,7 +122,7 @@
                             <label for="policy_num">Policy Number</label>
                             <input name="policy_num" type="text"
                                 class="form-control {{ $errors->has('policy_num') ? 'is-invalid' : '' }}" id="policy_num"
-                                value="{{ old('policy_num', $user->patient->policy_num) }}">
+                                value="{{ old('policy_num', $patient->policy_num) }}">
                             @if ($errors->has('policy_num'))
                                 <span class="invalid-feedback">
                                     {{ $errors->first('policy_num') }}

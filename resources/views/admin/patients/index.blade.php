@@ -8,7 +8,7 @@
                     <h3 class="card-title">Patients</h3>
                     <a href="{{ route('admin.patients.create') }}">Add</a>
                 </div>
-                @if (count($users) === 0)
+                @if (count($patients) === 0)
                     <h4>No patients found!</h4>
                 @else
                     <div class="table-responsive">
@@ -28,18 +28,21 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($users as $user)
+                                @foreach ($patients as $patient)
                                     <tr>
-                                        <td>{{ $user->f_name }} {{ $user->l_name }}</td>
-                                        <td>{{ Str::limit($user->postal_address, 15) }}</td>
-                                        <td>{{ $user->phone_num }}</td>
-                                        <td>{{ $user->email }}</td>
-                                        <td>{{ $user->patient->insurance_name }}</td>
-                                        <td>{{ $user->patient->policy_num }}</td>
+                                        <td>{{ $patient->user->f_name }} {{ $patient->user->l_name }}</td>
+                                        <td>
+                                            {{ Str::limit($patient->user->postal_address, 15) }}
+                                        </td>
+                                        <td>{{ $patient->user->phone_num }}</td>
+                                        <td>{{ $patient->user->email }}</td>
+                                        <td>{{ $patient->insurance_name }}</td>
+                                        <td>{{ $patient->policy_num }}</td>
                                         <td class="d-flex justify-content-lg-between">
-                                            <a href="{{ route('admin.patients.show', $user->id) }}">View</a>
-                                            <a href="{{ route('admin.patients.edit', $user->id) }}">Edit</a>
-                                            <form method="POST" action="{{ route('admin.patients.destroy', $user->id) }}">
+                                            <a href="{{ route('admin.patients.show', $patient->id) }}">View</a>
+                                            <a href="{{ route('admin.patients.edit', $patient->id) }}">Edit</a>
+                                            <form method="POST"
+                                                action="{{ route('admin.patients.destroy', $patient->id) }}">
                                                 <input type="hidden" value="DELETE" name="_method">
                                                 <input type="hidden" value="{{ csrf_token() }}" name="_token">
                                                 <input class="input-delete" type="submit" value="Delete">

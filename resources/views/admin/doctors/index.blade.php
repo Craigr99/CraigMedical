@@ -25,19 +25,19 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($doctors as $user)
+                                @foreach ($doctors as $doctor)
                                     <tr>
-                                        <td>{{ $user->f_name }} {{ $user->l_name }}</td>
-                                        <td>{{ Str::limit($user->postal_address, 15) }}</td>
-                                        <td>{{ $user->phone_num }}</td>
-                                        <td>{{ $user->email }}</td>
+                                        <td>{{ $doctor->user->f_name }} {{ $doctor->user->l_name }}</td>
+                                        <td>{{ Str::limit($doctor->user->postal_address, 15) }}</td>
+                                        <td>{{ $doctor->user->phone_num }}</td>
+                                        <td>{{ $doctor->user->email }}</td>
                                         {{-- Format date in DD/MM/YYYY
                                         --}}
-                                        <td>{{ date('d-m-Y', strtotime($user->doctor->date_started)) }}</td>
+                                        <td>{{ date('d-m-Y', strtotime($doctor->date_started)) }}</td>
                                         <td class="d-flex justify-content-lg-between">
-                                            <a href="{{ route('admin.doctors.show', $user->id) }}">View</a>
-                                            <a href="{{ route('admin.doctors.edit', $user->id) }}">Edit</a>
-                                            <form method="POST" action="{{ route('admin.doctors.destroy', $user->id) }}">
+                                            <a href="{{ route('admin.doctors.show', $doctor->id) }}">View</a>
+                                            <a href="{{ route('admin.doctors.edit', $doctor->id) }}">Edit</a>
+                                            <form method="POST" action="{{ route('admin.doctors.destroy', $doctor->id) }}">
                                                 <input type="hidden" value="DELETE" name="_method">
                                                 <input type="hidden" value="{{ csrf_token() }}" name="_token">
                                                 <input class="input-delete" type="submit" value="Delete">

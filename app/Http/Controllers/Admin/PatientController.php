@@ -24,9 +24,11 @@ class PatientController extends Controller
     public function index()
     {
         // Get all users that have a role with the name 'patient'
-        $users = Role::where('name', 'patient')->first()->users()->get();
+        // $users = Role::where('name', 'patient')->first()->users()->get();
+        $patients = Patient::all();
         return view('admin.patients.index', [
-            'users' => $users,
+            // 'users' => $users,
+            'patients' => $patients,
         ]);
     }
 
@@ -111,10 +113,10 @@ class PatientController extends Controller
      */
     public function show($id)
     {
-        $user = User::findOrFail($id);
+        $patient = Patient::findOrFail($id);
 
         return view('admin.patients.show', [
-            'user' => $user,
+            'patient' => $patient,
         ]);
     }
 
@@ -126,10 +128,10 @@ class PatientController extends Controller
      */
     public function edit($id)
     {
-        $user = User::findOrFail($id);
+        $patient = Patient::findOrFail($id);
 
         return view('admin.patients.edit', [
-            'user' => $user,
+            'patient' => $patient,
         ]);
     }
 
@@ -186,8 +188,8 @@ class PatientController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::findOrFail($id);
-        $patient = Patient::where('user_id', $id);
+        $patient = Patient::findOrFail($id);
+        $user = User::where('id', $patient->user_id);
         $patient->delete();
         $user->delete();
 

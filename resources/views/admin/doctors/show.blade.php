@@ -10,23 +10,23 @@
                         <ul class="list-group list-group-flush w-100">
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <h5 class="">Name</h5>
-                                {{ $user->f_name }} {{ $user->l_name }}
+                                {{ $doctor->user->f_name }} {{ $doctor->user->l_name }}
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <h5 class="">Address</h5>
-                                {{ $user->postal_address }}
+                                {{ $doctor->user->postal_address }}
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <h5 class="">Phone</h5>
-                                {{ $user->phone_num }}
+                                {{ $doctor->user->phone_num }}
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <h5 class="">Email</h5>
-                                {{ $user->email }}
+                                {{ $doctor->user->email }}
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <h5 class="">Start date</h5>
-                                {{ date('d-m-Y', strtotime($user->doctor->date_started)) }}
+                                {{ date('d-m-Y', strtotime($doctor->date_started)) }}
                             </li>
                         </ul>
                     </div>

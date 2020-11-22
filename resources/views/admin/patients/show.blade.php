@@ -10,27 +10,27 @@
                         <ul class="list-group list-group-flush w-100">
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <h5 class="">Name</h5>
-                                {{ $user->f_name }} {{ $user->l_name }}
+                                {{ $patient->user->f_name }} {{ $patient->user->l_name }}
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <h5 class="">Address</h5>
-                                {{ $user->postal_address }}
+                                {{ $patient->user->postal_address }}
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <h5 class="">Phone</h5>
-                                {{ $user->phone_num }}
+                                {{ $patient->user->phone_num }}
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <h5 class="">Email</h5>
-                                {{ $user->email }}
+                                {{ $patient->user->email }}
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <h5 class="">Policy Number</h5>
-                                {{ $user->patient->policy_num }}
+                                {{ $patient->policy_num }}
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <h5 class="">Insurance Company</h5>
-                                {{ $user->patient->insurance_name }}
+                                {{ $patient->insurance_name }}
                             </li>
                         </ul>
                     </div>

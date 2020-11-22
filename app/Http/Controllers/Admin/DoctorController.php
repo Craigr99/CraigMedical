@@ -25,8 +25,7 @@ class DoctorController extends Controller
 
     public function index()
     {
-        // Get all users that have a role with the name 'doctor'
-        $doctors = Role::where('name', 'doctor')->first()->users()->get();
+        $doctors = Doctor::all();
 
         return view('admin.doctors.index', [
             'doctors' => $doctors,
@@ -102,10 +101,10 @@ class DoctorController extends Controller
      */
     public function show($id)
     {
-        $user = User::findOrFail($id);
+        $doctor = Doctor::findOrFail($id);
 
         return view('admin.doctors.show', [
-            'user' => $user,
+            'doctor' => $doctor,
         ]);
     }
 
@@ -117,10 +116,10 @@ class DoctorController extends Controller
      */
     public function edit($id)
     {
-        $user = User::findOrFail($id);
+        $doctor = Doctor::findOrFail($id);
 
         return view('admin.doctors.edit', [
-            'user' => $user,
+            'doctor' => $doctor,
         ]);
     }
 
@@ -165,8 +164,8 @@ class DoctorController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::findOrFail($id);
-        $doctor = Doctor::where('user_id', $id);
+        $doctor = Doctor::findOrFail($id);
+        $user = User::where('id', $doctor->user_id);
         $doctor->delete();
         $user->delete();
 
