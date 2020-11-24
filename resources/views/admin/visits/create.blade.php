@@ -61,9 +61,11 @@
                     <div class="row">
                         <div class="col-md-6 mb-5">
                             <label for="doctor">Doctor</label>
-                            <select name="doctor_id" class="form-control" id="doctor">
+                            <select name="doctor_id" class="form-control" id="doctor_id">
                                 @foreach ($doctors as $doctor)
-                                    <option value="{{ $doctor->id }}">{{ $doctor->f_name }} {{ $doctor->l_name }}</option>
+                                    <option value="{{ $doctor->id }}">{{ $doctor->user->f_name }}
+                                        {{ $doctor->user->l_name }}
+                                    </option>
                                 @endforeach
                             </select>
                             @if ($errors->has('doctor'))
@@ -74,9 +76,10 @@
                         </div>
                         <div class="col-md-6 mb-5">
                             <label for="patient">Patient</label>
-                            <select name="patient_id" class="form-control" id="patient">
+                            <select name="patient_id" class="form-control" id="patient_id">
                                 @foreach ($patients as $patient)
-                                    <option value="{{ $patient->id }}">{{ $patient->f_name }} {{ $patient->l_name }}
+                                    <option value="{{ $patient->id }}">{{ $patient->user->f_name }}
+                                        {{ $patient->user->l_name }}
                                     </option>
                                 @endforeach
                             </select>

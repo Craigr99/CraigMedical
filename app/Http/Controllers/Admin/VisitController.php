@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Role;
+use App\Models\Doctor;
+use App\Models\Patient;
 use App\Models\Visit;
 use Illuminate\Http\Request;
 
@@ -37,13 +38,13 @@ class VisitController extends Controller
      */
     public function create()
     {
-        $doctors = Role::where('name', 'doctor')->first()->users()->get();
-        $patients = Role::where('name', 'patient')->first()->users()->get();
+        $doctors = Doctor::all();
+        $patients = Patient::all();
 
-        return view('admin.visits.create',
-            ['doctors' => $doctors,
-                'patients' => $patients,
-            ]);
+        return view('admin.visits.create', [
+            'doctors' => $doctors,
+            'patients' => $patients,
+        ]);
 
     }
 
@@ -55,11 +56,11 @@ class VisitController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
+        // dd($request->all());
         $request->validate([
             'date' => 'required|date',
             'time' => 'required|string',
-            'duration' => 'required|integer|min:0',
+            'duration' => 'required|integer|min:1',
             'cost' => 'required|numeric|min:0',
             'doctor_id' => 'required|integer',
             'patient_id' => 'required|integer',

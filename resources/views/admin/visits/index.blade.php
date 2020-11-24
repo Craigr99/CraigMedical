@@ -29,11 +29,11 @@
                                 @foreach ($visits as $visit)
 
                                     <tr>
-                                        <td>{{ $visit->date }} </td>
+                                        <td>{{ date('d-m-Y', strtotime($visit->date)) }} </td>
                                         <td>{{ $visit->time }} </td>
                                         <td>{{ $visit->duration }} </td>
-                                        <td>{{ $visit->patient_id }} </td>
-                                        <td>{{ $visit->doctor_id }} </td>
+                                        <td>{{ $visit->patient->user->f_name }} {{ $visit->patient->user->l_name }} </td>
+                                        <td>{{ $visit->doctor->user->f_name }} {{ $visit->doctor->user->l_name }} </td>
                                         <td>€{{ $visit->cost }} </td>
                                         <td>Actions</td>
                                     </tr>

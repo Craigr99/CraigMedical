@@ -9,8 +9,13 @@ class Visit extends Model
 {
     use HasFactory;
 
-    public function user()
+    public function doctor()
     {
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo('App\Models\Doctor');
+    }
+
+    public function patient()
+    {
+        return $this->belongsTo('App\Models\Patient');
     }
 }
