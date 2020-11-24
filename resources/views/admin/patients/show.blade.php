@@ -30,7 +30,7 @@
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <h5 class="">Insurance Company</h5>
-                                {{ $patient->insurance_name }}
+                                {{ $patient->insuranceCompany->name }}
                             </li>
                         </ul>
                     </div>

@@ -23,8 +23,8 @@ class CreateVisitsTable extends Migration
             $table->decimal('cost', 5, 2);
             $table->timestamps();
 
-            $table->foreign('doctor_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('restrict');
-            $table->foreign('patient_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('restrict');
+            $table->foreign('doctor_id')->references('id')->on('doctors')->onUpdate('cascade')->onDelete('restrict');
+            $table->foreign('patient_id')->references('id')->on('patients')->onUpdate('cascade')->onDelete('restrict');
         });
     }
 

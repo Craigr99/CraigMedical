@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Insurance;
 use App\Models\Patient;
 use App\Models\Role;
 use App\Models\User;
@@ -39,7 +40,11 @@ class PatientController extends Controller
      */
     public function create()
     {
-        return view('admin.patients.create');
+        $insurance_companies = Insurance::all();
+
+        return view('admin.patients.create', [
+            'insurance_companies' => $insurance_companies,
+        ]);
     }
 
     /**

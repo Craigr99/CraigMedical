@@ -20,7 +20,7 @@ class PatientSeeder extends Seeder
         foreach ($role_patient->users as $user) {
             $patient = new Patient();
             $patient->insurance = true;
-            $patient->insurance_name = 'VHI';
+            $patient->insurance_id = 1;
             $patient->policy_num = $this->random_str(12, '0123456789');
             $patient->user_id = $user->id;
             $patient->save();

@@ -13,4 +13,9 @@ class Patient extends Model
     {
         return $this->belongsTo('App\Models\User');
     }
+
+    public function insuranceCompany()
+    {
+        return $this->belongsTo('App\Models\Insurance', 'insurance_id');
+    }
 }

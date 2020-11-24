@@ -24,8 +24,6 @@ class VisitController extends Controller
     {
         $visits = Visit::all();
 
-        // dd($visits);
-
         return view('admin.visits.index', [
             'visits' => $visits,
         ]);
