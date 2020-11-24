@@ -24,11 +24,8 @@ class PatientController extends Controller
      */
     public function index()
     {
-        // Get all users that have a role with the name 'patient'
-        // $users = Role::where('name', 'patient')->first()->users()->get();
         $patients = Patient::all();
         return view('admin.patients.index', [
-            // 'users' => $users,
             'patients' => $patients,
         ]);
     }
@@ -55,8 +52,6 @@ class PatientController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
-
         //validation rules
         $rules = [
             'f_name' => 'required|string|min:2|max:40',
@@ -65,7 +60,7 @@ class PatientController extends Controller
             'phone' => 'required|numeric|min:8',
             'email' => 'required|email|min:5|max:50|unique:users,email',
             'insurance' => 'required|in:yes,no',
-            'insurance_name' => 'exclude_if:insurance,no|min:2|max:40',
+            'insurance_id' => 'exclude_if:insurance,no',
             'policy_num' => 'exclude_if:insurance,no|numeric|digits:13|unique:patients,policy_num',
         ];
 
@@ -94,14 +89,16 @@ class PatientController extends Controller
         // Create a Patient
         $patient = new Patient();
         // $patient->insurance = $request->insurance;
+        // if patient has insurance
         if ($request->insurance === "yes") {
-            $patient->insurance = 1;
+            $patient->insurance = 1; // has health insurance = true
+            $patient->insurance_id = $request->insurance_id;
+            $patient->policy_num = $request->policy_num;
         } else if ($request->insurance === "no") {
-            $patient->insurance = 0;
+            $patient->insurance = 0; // has health insurance = false
+            $patient->insurance_id = null;
         }
 
-        $patient->insurance_name = $request->insurance_name;
-        $patient->policy_num = $request->policy_num;
         $patient->user_id = $user->id;
         $patient->save();
 
@@ -134,9 +131,11 @@ class PatientController extends Controller
     public function edit($id)
     {
         $patient = Patient::findOrFail($id);
+        $insurance_companies = Insurance::all();
 
         return view('admin.patients.edit', [
             'patient' => $patient,
+            'insurance_companies' => $insurance_companies,
         ]);
     }
 
@@ -157,7 +156,7 @@ class PatientController extends Controller
             'phone' => 'required|numeric|digits:10|',
             'email' => 'required|email|min:5|max:50|unique:users,email,' . $id,
             'insurance' => 'required|in:yes,no',
-            'insurance_name' => 'exclude_if:insurance,no|min:2|max:40',
+            'insurance_id' => 'exclude_if:insurance,no',
             'policy_num' => 'exclude_if:insurance,no|numeric|digits:13|unique:patients,policy_num,' . $user->patient->id,
         ]);
 
@@ -171,12 +170,12 @@ class PatientController extends Controller
         // IF insurance is ticked yes
         if ($request->insurance === "yes") {
             $patient->insurance = 1;
-            $patient->insurance_name = $request->input('insurance_name');
+            $patient->insurance_id = $request->input('insurance_id');
             $patient->policy_num = $request->input('policy_num');
         } else if ($request->insurance === "no") {
             $patient->insurance = 0;
             //Set insurance values to NULL
-            $patient->insurance_name = null;
+            $patient->insurance_id = null;
             $patient->policy_num = null;
         }
         $user->save();

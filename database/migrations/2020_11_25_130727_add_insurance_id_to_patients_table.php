@@ -15,7 +15,7 @@ class AddInsuranceIdToPatientsTable extends Migration
     {
         Schema::table('patients', function (Blueprint $table) {
             $table->dropColumn('insurance_name');
-            $table->unsignedBigInteger('insurance_id');
+            $table->unsignedBigInteger('insurance_id')->nullable();
 
             $table->foreign('insurance_id')->references('id')->on('insurances')->onUpdate('cascade')->onDelete('restrict');
         });

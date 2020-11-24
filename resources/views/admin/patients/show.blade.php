@@ -30,7 +30,11 @@
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <h5 class="">Insurance Company</h5>
-                                {{ $patient->insuranceCompany->name }}
+                                @if ($patient->insurance_id === null)
+
+                                @else
+                                    {{ $patient->insuranceCompany->name }}
+                                @endif
                             </li>
                         </ul>
                     </div>

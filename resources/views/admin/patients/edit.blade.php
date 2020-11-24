@@ -105,13 +105,27 @@
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="insurance_name">Insurance Name</label>
-                            <input name="insurance_name" type="text"
-                                class="form-control {{ $errors->has('insurance_name') ? 'is-invalid' : '' }}"
-                                id="insurance_name" value="{{ old('insurance_name', $patient->insurance_name) }}">
-                            @if ($errors->has('insurance_name'))
+                            <label for="insurance_id">Insurance Name</label>
+                            <select name="insurance_id"
+                                class="form-control {{ $errors->has('insurance_id') ? 'is-invalid' : '' }}"
+                                id="insurance_id">
+                                @foreach ($insurance_companies as $insurance)
+                                    @if ($patient->insurance_id === null)
+                                        <option value="{{ $insurance->id }}"
+                                            {{ old('insurance_id') == $insurance->id ? 'selected' : '' }}>
+                                            {{ $insurance->name }}</option>
+                                    @else
+                                        <option value="{{ $insurance->id }}"
+                                            {{ old('insurance_id', $patient->insuranceCompany->id) == $insurance->id ? 'selected' : '' }}>
+                                            {{ $insurance->name }}
+                                        </option>
+                                    @endif
+                                @endforeach
+                            </select>
+
+                            @if ($errors->has('insurance_id'))
                                 <span class="invalid-feedback">
-                                    {{ $errors->first('insurance_name') }}
+                                    {{ $errors->first('insurance_id') }}
                                 </span>
                             @endif
                         </div>

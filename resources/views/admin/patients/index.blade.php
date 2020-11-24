@@ -36,7 +36,11 @@
                                         </td>
                                         <td>{{ $patient->user->phone_num }}</td>
                                         <td>{{ $patient->user->email }}</td>
-                                        <td>{{ $patient->insuranceCompany->name }}</td>
+                                        @if ($patient->insurance_id === null)
+                                            <td></td>
+                                        @else
+                                            <td>{{ $patient->insuranceCompany->name }} </td>
+                                        @endif
                                         <td>{{ $patient->policy_num }}</td>
                                         <td class="d-flex justify-content-lg-between">
                                             <a href="{{ route('admin.patients.show', $patient->id) }}">View</a>
