@@ -86,7 +86,11 @@ class VisitController extends Controller
      */
     public function show($id)
     {
-        //
+        $visit = Visit::findOrFail($id);
+
+        return view('admin.visits.show', [
+            'visit' => $visit,
+        ]);
     }
 
     /**
@@ -97,7 +101,15 @@ class VisitController extends Controller
      */
     public function edit($id)
     {
-        //
+        $visit = Visit::findOrFail($id);
+        $doctors = Doctor::all();
+        $patients = Patient::all();
+
+        return view('admin.visits.edit', [
+            'visit' => $visit,
+            'doctors' => $doctors,
+            'patients' => $patients,
+        ]);
     }
 
     /**
@@ -109,7 +121,25 @@ class VisitController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $visit = Visit::findOrFail($id);
+        $request->validate([
+            'date' => 'required|date',
+            'time' => 'required|string',
+            'duration' => 'required|integer|min:1',
+            'cost' => 'required|numeric|min:0',
+            'doctor_id' => 'required|integer',
+            'patient_id' => 'required|integer',
+        ]);
+
+        $visit->date = $request->input('date');
+        $visit->time = $request->input('time');
+        $visit->duration = $request->input('duration');
+        $visit->cost = $request->input('cost');
+        $visit->doctor_id = $request->input('doctor_id');
+        $visit->patient_id = $request->input('patient_id');
+        $visit->save();
+
+        return redirect()->route('admin.visits.index');
     }
 
     /**
@@ -120,6 +150,10 @@ class VisitController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $visit = Visit::findOrFail($id);
+        $visit->delete();
+
+        return redirect()->route('admin.visits
+        .index');
     }
 }

@@ -63,5 +63,11 @@ class UserSeeder extends Seeder
         $patient->password = Hash::make('secret');
         $patient->save();
         $patient->roles()->attach($role_patient);
+
+        //admins
+        for ($i = 1; $i <= 3; $i++) {
+            $user = User::factory()->create();
+            $user->roles()->attach($role_admin);
+        }
     }
 }

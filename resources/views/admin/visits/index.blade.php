@@ -35,7 +35,15 @@
                                         <td>{{ $visit->patient->user->f_name }} {{ $visit->patient->user->l_name }} </td>
                                         <td>{{ $visit->doctor->user->f_name }} {{ $visit->doctor->user->l_name }} </td>
                                         <td>€{{ $visit->cost }} </td>
-                                        <td>Actions</td>
+                                        <td class="d-flex justify-content-lg-between">
+                                            <a href="{{ route('admin.visits.show', $visit->id) }}">View</a>
+                                            <a href="{{ route('admin.visits.edit', $visit->id) }}">Edit</a>
+                                            <form method="POST" action="{{ route('admin.visits.destroy', $visit->id) }}">
+                                                <input type="hidden" value="DELETE" name="_method">
+                                                <input type="hidden" value="{{ csrf_token() }}" name="_token">
+                                                <input class="input-delete" type="submit" value="Delete">
+                                            </form>
+                                        </td>
                                     </tr>
 
                                 @endforeach
