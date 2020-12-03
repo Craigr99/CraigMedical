@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Doctor;
+use App\Models\Patient;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -68,6 +70,24 @@ class UserSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             $user = User::factory()->create();
             $user->roles()->attach($role_admin);
+        }
+
+        //doctors
+        for ($i = 1; $i <= 6; $i++) {
+            $user = User::factory()->create();
+            $user->roles()->attach($role_doctor);
+            $doctor = Doctor::factory()->create([
+                'user_id' => $user->id,
+            ]);
+        }
+
+        //patients
+        for ($i = 1; $i <= 10; $i++) {
+            $user = User::factory()->create();
+            $user->roles()->attach($role_patient);
+            $patient = Patient::factory()->create([
+                'user_id' => $user->id,
+            ]);
         }
     }
 }

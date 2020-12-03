@@ -21,8 +21,11 @@ class DoctorFactory extends Factory
      */
     public function definition()
     {
+        $date = $this->faker->dateTimeBetween($startDate = '-5 years', $endDate = 'now');
+        $dateFormat = $date->format('Y-m-d');
+
         return [
-            //
+            'date_started' => $dateFormat,
         ];
     }
 }
