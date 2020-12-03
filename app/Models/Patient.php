@@ -18,4 +18,9 @@ class Patient extends Model
     {
         return $this->belongsTo('App\Models\Insurance', 'insurance_id');
     }
+
+    public function visit()
+    {
+        return $this->hasMany('App\Models\Visit');
+    }
 }

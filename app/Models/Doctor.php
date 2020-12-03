@@ -13,4 +13,9 @@ class Doctor extends Model
     {
         return $this->belongsTo('App\Models\User');
     }
+
+    public function visit()
+    {
+        return $this->hasMany('App\Models\Visit');
+    }
 }

@@ -36,12 +36,14 @@ class VisitController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id = null)
     {
         $doctors = Doctor::all();
         $patients = Patient::all();
 
         return view('admin.visits.create', [
+            // pass in the id of the doctor if the user wants to create a new visit for a particular doctor
+            'id' => $id,
             'doctors' => $doctors,
             'patients' => $patients,
         ]);
@@ -153,7 +155,6 @@ class VisitController extends Controller
         $visit = Visit::findOrFail($id);
         $visit->delete();
 
-        return redirect()->route('admin.visits
-        .index');
+        return redirect()->route('admin.visits.index');
     }
 }
