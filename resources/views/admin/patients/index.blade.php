@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
     <div class="container mt-md-5">
         <div class="card">
             <div class="card-body">

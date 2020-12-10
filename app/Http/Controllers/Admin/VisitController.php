@@ -42,7 +42,7 @@ class VisitController extends Controller
         $patients = Patient::all();
 
         return view('admin.visits.create', [
-            // pass in the id of the doctor if the user wants to create a new visit for a particular doctor
+            // pass in the id of the doctor or patient if the user wants to create a new visit for a particular doctor / patient
             'id' => $id,
             'doctors' => $doctors,
             'patients' => $patients,

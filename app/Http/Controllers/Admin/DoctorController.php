@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Doctor;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Visit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -166,6 +167,9 @@ class DoctorController extends Controller
     {
         $doctor = Doctor::findOrFail($id);
         $user = User::where('id', $doctor->user_id);
+        $visit = Visit::where('doctor_id', $doctor->id);
+
+        $visit->delete();
         $doctor->delete();
         $user->delete();
 

@@ -7,6 +7,7 @@ use App\Models\Insurance;
 use App\Models\Patient;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Visit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -193,7 +194,10 @@ class PatientController extends Controller
     public function destroy($id)
     {
         $patient = Patient::findOrFail($id);
+        $visit = Visit::where('patient_id', $patient->id);
         $user = User::where('id', $patient->user_id);
+
+        $visit->delete();
         $patient->delete();
         $user->delete();
 
