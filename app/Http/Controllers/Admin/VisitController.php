@@ -77,6 +77,8 @@ class VisitController extends Controller
         $visit->patient_id = $request->input('patient_id');
         $visit->save();
 
+        $request->session()->flash('success', 'Visit created successfully!');
+
         return redirect()->route('admin.visits.index');
     }
 
@@ -141,6 +143,8 @@ class VisitController extends Controller
         $visit->patient_id = $request->input('patient_id');
         $visit->save();
 
+        $request->session()->flash('info', 'Visit updated successfully!');
+
         return redirect()->route('admin.visits.index');
     }
 
@@ -150,10 +154,12 @@ class VisitController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $visit = Visit::findOrFail($id);
         $visit->delete();
+
+        $request->session()->flash('danger', 'Visit deleted successfully!');
 
         return redirect()->route('admin.visits.index');
     }

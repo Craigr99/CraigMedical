@@ -103,9 +103,9 @@ class PatientController extends Controller
         $patient->user_id = $user->id;
         $patient->save();
 
-        return redirect()
-            ->route('admin.patients.index')
-            ->with('status', 'Created a new Patient!');
+        $request->session()->flash('success', 'Paitent created successfully!');
+
+        return redirect()->route('admin.patients.index');
     }
 
     /**
@@ -182,6 +182,8 @@ class PatientController extends Controller
         $user->save();
         $patient->save();
 
+        $request->session()->flash('info', 'Paitent updated successfully!');
+
         return redirect()->route('admin.patients.index');
     }
 
@@ -191,7 +193,7 @@ class PatientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $patient = Patient::findOrFail($id);
         $visit = Visit::where('patient_id', $patient->id);
@@ -200,6 +202,8 @@ class PatientController extends Controller
         $visit->delete();
         $patient->delete();
         $user->delete();
+
+        $request->session()->flash('danger', 'Paitent deleted successfully!');
 
         return redirect()->route('admin.patients.index');
     }
