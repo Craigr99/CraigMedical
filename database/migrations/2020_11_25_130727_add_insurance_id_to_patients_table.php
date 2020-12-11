@@ -29,7 +29,7 @@ class AddInsuranceIdToPatientsTable extends Migration
     public function down()
     {
         Schema::table('patients', function (Blueprint $table) {
-            //
+            $table->dropColumn('insurance_id');
         });
     }
 }

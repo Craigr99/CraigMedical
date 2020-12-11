@@ -15,6 +15,7 @@
                             <caption>List of visits</caption>
                             <thead>
                                 <tr class="bg-success text-white">
+                                    <th scope="col">Status</th>
                                     <th scope="col">Date</th>
                                     <th scope="col">Time</th>
                                     <th scope="col">Duration</th>
@@ -25,21 +26,26 @@
                             </thead>
                             <tbody>
                                 @foreach ($visits as $visit)
-                                    <tr>
-                                        <td>{{ date('d-m-Y', strtotime($visit->date)) }} </td>
-                                        <td>{{ $visit->time }} </td>
-                                        <td>{{ $visit->duration }} </td>
-                                        <td>{{ $visit->doctor->user->f_name }} {{ $visit->doctor->user->l_name }} </td>
-                                        <td>€{{ $visit->cost }} </td>
-                                        <td class="d-flex justify-content-lg-between">
-                                            <a href="{{ route('patient.visits.show', $visit->id) }}">View</a>
-                                            <form method="POST" action="{{ route('patient.visits.destroy', $visit->id) }}">
-                                                <input type="hidden" value="DELETE" name="_method">
-                                                <input type="hidden" value="{{ csrf_token() }}" name="_token">
-                                                <input class="input-delete" type="submit" value="Cancel">
-                                            </form>
-                                        </td>
-                                    </tr>
+                                    @if ($visit->status == 'Active')
+                                        <tr>
+                                            <td>{{ $visit->status }}</td>
+                                            <td>{{ date('d-m-Y', strtotime($visit->date)) }} </td>
+                                            <td>{{ $visit->time }} </td>
+                                            <td>{{ $visit->duration }} </td>
+                                            <td>{{ $visit->doctor->user->f_name }} {{ $visit->doctor->user->l_name }} </td>
+                                            <td>€{{ $visit->cost }} </td>
+                                            <td class="d-flex justify-content-lg-between">
+                                                <a href="{{ route('patient.visits.show', $visit->id) }}">View</a>
+                                                <form method="POST"
+                                                    action="{{ route('patient.visits.destroy', $visit->id) }}">
+                                                    <input type="hidden" value="DELETE" name="_method">
+                                                    <input type="hidden" value="{{ csrf_token() }}" name="_token">
+                                                    <input class="input-delete" type="submit" value="Cancel">
+                                                </form>
+                                            </td>
+                                        </tr>
+
+                                    @endif
 
                                 @endforeach
 

@@ -16,6 +16,7 @@
                             <caption>List of visits</caption>
                             <thead>
                                 <tr class="bg-success text-white">
+                                    <th scope="col">Status</th>
                                     <th scope="col">Date</th>
                                     <th scope="col">Time</th>
                                     <th scope="col">Duration</th>
@@ -27,7 +28,8 @@
                             <tbody>
                                 @foreach ($visits as $visit)
 
-                                    <tr>
+                                    <tr class="{{ $visit->status == 'Cancelled' ? 'table-danger' : '' }}">
+                                        <td>{{ $visit->status }}</td>
                                         <td>{{ date('d-m-Y', strtotime($visit->date)) }} </td>
                                         <td>{{ $visit->time }} </td>
                                         <td>{{ $visit->duration }} </td>

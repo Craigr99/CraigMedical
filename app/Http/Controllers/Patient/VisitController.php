@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Patient;
 use App\Http\Controllers\Controller;
 use App\Models\Visit;
 use Auth;
+use Illuminate\Http\Request;
 
 class VisitController extends Controller
 {
@@ -35,8 +36,15 @@ class VisitController extends Controller
         ]);
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        $visit = Visit::findOrFail($id);
+        // $visit->delete();
+        $visit->status = 'Cancelled';
+        $visit->save();
+
+        $request->session()->flash('danger', 'Visit cancelled successfully!');
+
+        return redirect()->route('patient.visits.index');
     }
 }

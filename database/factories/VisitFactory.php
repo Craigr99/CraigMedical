@@ -36,6 +36,7 @@ class VisitFactory extends Factory
             'time' => date('H:i:s', rand(1, 54000)), // 00:00:00 - 15:00:00
             'duration' => $this->faker->numberBetween($min = 5, $max = 60),
             'cost' => $this->faker->numberBetween($min = 10, $max = 100),
+            'status' => 'Active',
         ];
     }
 }
