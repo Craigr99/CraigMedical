@@ -59,3 +59,5 @@ Route::delete('/doctor/visits/{id}', [DoctorVisitController::class, 'destroy'])-
 
 // Visits routes for patients
 Route::get('/patient/visits/index', [PatientVisitController::class, 'index'])->name('patient.visits.index');
+Route::get('/patient/visits/{id}', [PatientVisitController::class, 'show'])->name('patient.visits.show');
+Route::delete('/patient/visits/{id}', [PatientVisitController::class, 'destroy'])->name('patient.visits.destroy');

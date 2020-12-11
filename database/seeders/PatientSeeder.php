@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Patient;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class PatientSeeder extends Seeder
@@ -13,7 +16,14 @@ class PatientSeeder extends Seeder
      */
     public function run()
     {
-        // $role_patient = Role::where('name', 'patient')->first();
+        $role_patient = Role::where('name', 'patient')->first();
+        $user = User::findOrFail(4);
+        $patient = new Patient();
+        $patient->insurance = true;
+        $patient->insurance_id = 1;
+        $patient->policy_num = $this->random_str(12, '0123456789');
+        $patient->user_id = $user->id;
+        $patient->save();
 
         // foreach ($role_patient->users as $user) {
         //     $patient = new Patient();
