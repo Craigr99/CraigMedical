@@ -33,7 +33,7 @@
                                         <td>{{ $visit->duration }} </td>
                                         <td>{{ $visit->patient->user->f_name }} {{ $visit->patient->user->l_name }} </td>
                                         <td>€{{ $visit->cost }} </td>
-                                        {{-- <td class="d-flex justify-content-lg-between">
+                                        <td class="d-flex justify-content-lg-between">
                                             <a href="{{ route('doctor.visits.show', $visit->id) }}">View</a>
                                             <a href="{{ route('doctor.visits.edit', $visit->id) }}">Edit</a>
                                             <form method="POST" action="{{ route('doctor.visits.destroy', $visit->id) }}">
@@ -41,7 +41,7 @@
                                                 <input type="hidden" value="{{ csrf_token() }}" name="_token">
                                                 <input class="input-delete" type="submit" value="Delete">
                                             </form>
-                                        </td> --}}
+                                        </td>
                                     </tr>
 
                                 @endforeach

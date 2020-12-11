@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Doctor;
 
 use App\Http\Controllers\Controller;
+use App\Models\Patient;
 use App\Models\Visit;
 use Auth;
 use Illuminate\Http\Request;
@@ -34,7 +35,11 @@ class VisitController extends Controller
      */
     public function create()
     {
-        //
+        $patients = Patient::all();
+
+        return view('doctor.visits.create', [
+            'patients' => $patients,
+        ]);
     }
 
     /**
@@ -45,7 +50,26 @@ class VisitController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'date' => 'required|date',
+            'time' => 'required|string',
+            'duration' => 'required|integer|min:1',
+            'cost' => 'required|numeric|min:0',
+            'patient_id' => 'required|integer',
+        ]);
+
+        $visit = new Visit();
+        $visit->date = $request->input('date');
+        $visit->time = $request->input('time');
+        $visit->duration = $request->input('duration');
+        $visit->cost = $request->input('cost');
+        $visit->doctor_id = Auth::user()->doctor->id;
+        $visit->patient_id = $request->input('patient_id');
+        $visit->save();
+
+        $request->session()->flash('success', 'Visit created successfully!');
+
+        return redirect()->route('doctor.visits.index');
     }
 
     /**
