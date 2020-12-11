@@ -3,12 +3,18 @@
 use App\Http\Controllers\Admin\DoctorController as AdminDoctorController;
 use App\Http\Controllers\Admin\PatientController as AdminPatientController;
 use App\Http\Controllers\Admin\VisitController as AdminVisitController;
+use App\Http\Controllers\Doctor\VisitController as DoctorVisitController;
+use App\Http\Controllers\Patient\VisitController as PatientVisitController;
+use App\Http\Controllers\VisitController;
 use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+// Visits for each user
+Route::get('/visits', [VisitController::class, 'index'])->name('visits');
 
 // Routes to redirect users to their dashboard
 Route::get('/admin/home', [App\Http\Controllers\Admin\HomeController::class, 'index'])->name('admin.home');
@@ -34,11 +40,17 @@ Route::put('/patients/{id}', [AdminPatientController::class, 'update'])->name('a
 Route::delete('/patients/{id}', [AdminPatientController::class, 'destroy'])->name('admin.patients.destroy');
 
 // Visits routes for admin
-Route::get('/visits', [AdminVisitController::class, 'index'])->name('admin.visits.index');
+Route::get('/admin/visits/index', [AdminVisitController::class, 'index'])->name('admin.visits.index');
 Route::get('/visits/create/{id?}', [AdminVisitController::class, 'create'])->name('admin.visits.create');
-// Route::get('/visits/create', [AdminVisitController::class, 'create'])->name('admin.visits.create');
 Route::post('/visits', [AdminVisitController::class, 'store'])->name('admin.visits.store');
 Route::get('/visits/{id}', [AdminVisitController::class, 'show'])->name('admin.visits.show');
 Route::get('/visits/{id}/edit', [AdminVisitController::class, 'edit'])->name('admin.visits.edit');
 Route::put('/visits/{id}', [AdminVisitController::class, 'update'])->name('admin.visits.update');
 Route::delete('/visits/{id}', [AdminVisitController::class, 'destroy'])->name('admin.visits.destroy');
+
+// Visits routes for doctors
+Route::get('/doctor/visits/index', [DoctorVisitController::class, 'index'])->name('doctor.visits.index');
+Route::get('/visits/create', [DoctorVisitController::class, 'create'])->name('doctor.visits.create');
+
+// Visits routes for patients
+Route::get('/patient/visits/index', [PatientVisitController::class, 'index'])->name('patient.visits.index');
