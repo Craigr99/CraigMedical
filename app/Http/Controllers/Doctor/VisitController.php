@@ -80,7 +80,11 @@ class VisitController extends Controller
      */
     public function show($id)
     {
-        //
+        $visit = Visit::findOrFail($id);
+
+        return view('doctor.visits.show', [
+            'visit' => $visit,
+        ]);
     }
 
     /**
@@ -91,7 +95,13 @@ class VisitController extends Controller
      */
     public function edit($id)
     {
-        //
+        $visit = Visit::findOrFail($id);
+        $patients = Patient::all();
+
+        return view('doctor.visits.edit', [
+            'visit' => $visit,
+            'patients' => $patients,
+        ]);
     }
 
     /**
@@ -103,7 +113,26 @@ class VisitController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $visit = Visit::findOrFail($id);
+        $request->validate([
+            'date' => 'required|date',
+            'time' => 'required|string',
+            'duration' => 'required|integer|min:1',
+            'cost' => 'required|numeric|min:0',
+            'patient_id' => 'required|integer',
+        ]);
+
+        $visit->date = $request->input('date');
+        $visit->time = $request->input('time');
+        $visit->duration = $request->input('duration');
+        $visit->cost = $request->input('cost');
+        $visit->doctor_id = Auth::user()->doctor->id;
+        $visit->patient_id = $request->input('patient_id');
+        $visit->save();
+
+        $request->session()->flash('info', 'Visit updated successfully!');
+
+        return redirect()->route('doctor.visits.index');
     }
 
     /**
@@ -112,8 +141,13 @@ class VisitController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        $visit = Visit::findOrFail($id);
+        $visit->delete();
+
+        $request->session()->flash('danger', 'Visit deleted successfully!');
+
+        return redirect()->route('doctor.visits.index');
     }
 }
