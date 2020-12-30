@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Doctor;
 
 use App\Http\Controllers\Controller;
+use App\Mail\AppointmentCancelled;
 use App\Models\Patient;
+use App\Models\User;
 use App\Models\Visit;
 use Auth;
 use Illuminate\Http\Request;
+use Mail;
 
 class VisitController extends Controller
 {
@@ -144,7 +147,12 @@ class VisitController extends Controller
     public function destroy(Request $request, $id)
     {
         $visit = Visit::findOrFail($id);
-        $visit->delete();
+        $user = Patient::findOrFail($visit->patient_id);
+        $patient = User::findOrFail($user->user_id);
+        // $visit->delete();
+
+        // Send email to patient
+        Mail::to($patient->email)->send(new AppointmentCancelled($patient));
 
         $request->session()->flash('danger', 'Visit deleted successfully!');
 

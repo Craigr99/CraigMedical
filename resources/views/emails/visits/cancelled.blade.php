@@ -1,0 +1,1 @@
+<h1>Your visit has been cancelled.</h1>
