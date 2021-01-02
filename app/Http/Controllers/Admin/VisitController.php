@@ -23,7 +23,7 @@ class VisitController extends Controller
      */
     public function index()
     {
-        $visits = Visit::all();
+        $visits = Visit::paginate(10);
 
         return view('admin.visits.index', [
             'visits' => $visits,

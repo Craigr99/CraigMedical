@@ -8,6 +8,13 @@ use App\Http\Controllers\Patient\VisitController as PatientVisitController;
 use App\Http\Controllers\VisitController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/mailable', function () {
+    $patient = App\Models\User::find(5);
+    $visit = App\Models\Visit::first();
+
+    return new App\Mail\AppointmentCancelled($patient, $visit);
+});
+
 Auth::routes();
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

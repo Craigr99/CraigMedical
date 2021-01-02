@@ -25,7 +25,7 @@ class VisitController extends Controller
     public function index()
     {
         // Vists where doctor_id = current logged in doctor
-        $visits = Visit::where('doctor_id', Auth::user()->doctor->id)->get();
+        $visits = Visit::where('doctor_id', Auth::user()->doctor->id)->paginate(10);
         return view('doctor.visits.index', [
             'visits' => $visits,
         ]);
@@ -149,10 +149,11 @@ class VisitController extends Controller
         $visit = Visit::findOrFail($id);
         $user = Patient::findOrFail($visit->patient_id);
         $patient = User::findOrFail($user->user_id);
-        // $visit->delete();
 
         // Send email to patient
-        Mail::to($patient->email)->send(new AppointmentCancelled($patient));
+        Mail::to($patient->email)->send(new AppointmentCancelled($patient, $visit));
+
+        $visit->delete();
 
         $request->session()->flash('danger', 'Visit deleted successfully!');
 

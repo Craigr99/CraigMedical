@@ -21,7 +21,7 @@ class VisitController extends Controller
     public function index()
     {
         // Vists where patient_id = current logged in patient
-        $visits = Visit::where('patient_id', Auth::user()->patient->id)->get();
+        $visits = Visit::where('patient_id', Auth::user()->patient->id)->paginate(10);
         return view('patient.visits.index', [
             'visits' => $visits,
         ]);

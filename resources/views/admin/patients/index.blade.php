@@ -59,6 +59,9 @@
 
                             </tbody>
                         </table>
+                        <div class="d-flex justify-content-center">
+                            {!! $patients->links('pagination::bootstrap-4') !!}
+                        </div>
                     </div>
                 @endif
 
