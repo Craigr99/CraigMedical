@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Doctor;
 
 use App\Http\Controllers\Controller;
 use App\Mail\AppointmentCancelled;
+use App\Mail\AppointmentUpdated;
 use App\Models\Patient;
 use App\Models\User;
 use App\Models\Visit;
@@ -17,11 +18,7 @@ class VisitController extends Controller
     {
         $this->middleware('role:doctor');
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         // Vists where doctor_id = current logged in doctor
@@ -31,11 +28,6 @@ class VisitController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $patients = Patient::all();
@@ -45,12 +37,6 @@ class VisitController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -75,12 +61,6 @@ class VisitController extends Controller
         return redirect()->route('doctor.visits.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $visit = Visit::findOrFail($id);
@@ -90,12 +70,6 @@ class VisitController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $visit = Visit::findOrFail($id);
@@ -107,16 +81,12 @@ class VisitController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $visit = Visit::findOrFail($id);
+        $user = Patient::findOrFail($visit->patient_id);
+        $patient = User::findOrFail($user->user_id);
+
         $request->validate([
             'date' => 'required|date',
             'time' => 'required|string',
@@ -133,24 +103,21 @@ class VisitController extends Controller
         $visit->patient_id = $request->input('patient_id');
         $visit->save();
 
+        // Send email to patient saying the visit has been changed
+        Mail::to($patient->email)->send(new AppointmentUpdated($patient, $visit));
+
         $request->session()->flash('info', 'Visit updated successfully!');
 
         return redirect()->route('doctor.visits.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Request $request, $id)
     {
         $visit = Visit::findOrFail($id);
         $user = Patient::findOrFail($visit->patient_id);
         $patient = User::findOrFail($user->user_id);
 
-        // Send email to patient
+        // Send email to patient passing in the patient and visit objects
         Mail::to($patient->email)->send(new AppointmentCancelled($patient, $visit));
 
         $visit->delete();

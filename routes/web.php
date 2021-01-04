@@ -12,7 +12,7 @@ Route::get('/mailable', function () {
     $patient = App\Models\User::find(5);
     $visit = App\Models\Visit::first();
 
-    return new App\Mail\AppointmentCancelled($patient, $visit);
+    return new App\Mail\AppointmentUpdated($patient, $visit);
 });
 
 Auth::routes();

@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\AppointmentCancelled;
+use App\Mail\AppointmentUpdated;
 use App\Models\Doctor;
 use App\Models\Patient;
+use App\Models\User;
 use App\Models\Visit;
 use Illuminate\Http\Request;
+use Mail;
 
 class VisitController extends Controller
 {
@@ -126,6 +130,9 @@ class VisitController extends Controller
     public function update(Request $request, $id)
     {
         $visit = Visit::findOrFail($id);
+        $user = Patient::findOrFail($visit->patient_id);
+        $patient = User::findOrFail($user->user_id);
+
         $request->validate([
             'date' => 'required|date',
             'time' => 'required|string',
@@ -143,6 +150,9 @@ class VisitController extends Controller
         $visit->patient_id = $request->input('patient_id');
         $visit->save();
 
+        // Send email to patient saying the visit has been changed
+        Mail::to($patient->email)->send(new AppointmentUpdated($patient, $visit));
+
         $request->session()->flash('info', 'Visit updated successfully!');
 
         return redirect()->route('admin.visits.index');
@@ -157,6 +167,12 @@ class VisitController extends Controller
     public function destroy(Request $request, $id)
     {
         $visit = Visit::findOrFail($id);
+        $user = Patient::findOrFail($visit->patient_id);
+        $patient = User::findOrFail($user->user_id);
+
+        // Send email to patient passing in the patient and visit objects
+        Mail::to($patient->email)->send(new AppointmentCancelled($patient, $visit));
+
         $visit->delete();
 
         $request->session()->flash('danger', 'Visit deleted successfully!');
