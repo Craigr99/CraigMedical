@@ -47,14 +47,15 @@
                     </div>
                     <div class="table-responsive">
                         <table class="table table-hover">
-                            <caption>List of doctors visits</caption>
+                            <caption>List of patients visits</caption>
                             <thead>
                                 <tr class="bg-success text-white">
                                     <th scope="col">#</th>
                                     <th scope="col">Date</th>
                                     <th scope="col">Time</th>
                                     <th scope="col">Duration</th>
-                                    <th scope="col">Patient</th>
+                                    <th scope="col">Cost</th>
+                                    <th scope="col">Doctor</th>
                                     <th scope="col">Actions</th>
                                 </tr>
                             </thead>
@@ -66,6 +67,7 @@
                                         <td>{{ date('d-m-Y', strtotime($visit->date)) }} </td>
                                         <td>{{ $visit->time }} </td>
                                         <td>{{ $visit->duration }} </td>
+                                        <td>€{{ $visit->cost }} </td>
                                         <td>{{ $visit->doctor->user->f_name }}
                                             {{ $visit->doctor->user->l_name }}
                                         </td>

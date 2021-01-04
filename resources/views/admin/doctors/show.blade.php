@@ -45,6 +45,7 @@
                                     <th scope="col">Date</th>
                                     <th scope="col">Time</th>
                                     <th scope="col">Duration</th>
+                                    <th scope="col">Cost</th>
                                     <th scope="col">Patient</th>
                                     <th scope="col">Actions</th>
                                 </tr>
@@ -57,6 +58,7 @@
                                         <td>{{ date('d-m-Y', strtotime($visit->date)) }} </td>
                                         <td>{{ $visit->time }} </td>
                                         <td>{{ $visit->duration }} </td>
+                                        <td>€{{ $visit->cost }} </td>
                                         <td>{{ $visit->patient->user->f_name }}
                                             {{ $visit->patient->user->l_name }}
                                         </td>
