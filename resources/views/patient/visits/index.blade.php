@@ -2,6 +2,29 @@
 
 @section('content')
     <div class="container mt-md-5">
+        {{-- Delete modal --}}
+        <div class="clearfix"></div>
+        <div class="modal fade" id="delete-modal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Cancel Visit</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to cancel this visit?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger"
+                            onclick="document.querySelector('#delete-form').submit()">Proceed</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="card">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center py-2">
@@ -36,11 +59,12 @@
                                             <td>€{{ $visit->cost }} </td>
                                             <td class="d-flex justify-content-lg-between">
                                                 <a href="{{ route('patient.visits.show', $visit->id) }}">View</a>
-                                                <form method="POST"
+                                                <a href="#" class="input-delete" data-toggle="modal"
+                                                    data-target="#delete-modal">Cancel</a>
+                                                <form method="POST" id="delete-form"
                                                     action="{{ route('patient.visits.destroy', $visit->id) }}">
-                                                    <input type="hidden" value="DELETE" name="_method">
-                                                    <input type="hidden" value="{{ csrf_token() }}" name="_token">
-                                                    <input class="input-delete" type="submit" value="Cancel">
+                                                    @csrf
+                                                    @method('DELETE')
                                                 </form>
                                             </td>
                                         </tr>
