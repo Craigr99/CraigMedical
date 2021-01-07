@@ -50,12 +50,13 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        // validation rules
         return Validator::make($data, [
             'f_name' => ['required', 'string', 'max:255'],
             'l_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'postal_address' => ['required', 'string', 'max:255'],
-            'phone_num' => ['required', 'string', 'min:8', 'max:255'],
+            'postal_address' => ['required', 'string', 'min:5', 'max:255'],
+            'phone_num' => ['required', 'numeric', 'size:10'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -68,6 +69,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        // create a new user
         $user = User::create([
             'f_name' => $data['f_name'],
             'l_name' => $data['l_name'],
@@ -76,7 +78,7 @@ class RegisterController extends Controller
             'phone_num' => $data['phone_num'],
             'password' => Hash::make($data['password']),
         ]);
-
+        // Set role to admin
         $user->roles()->attach(Role::where('name', 'admin')->first());
 
         return $user;

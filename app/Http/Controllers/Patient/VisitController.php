@@ -39,7 +39,7 @@ class VisitController extends Controller
     public function destroy(Request $request, $id)
     {
         $visit = Visit::findOrFail($id);
-        // $visit->delete();
+        // Set the status to cancelled and save. The admin or doctor can then remove from database
         $visit->status = 'Cancelled';
         $visit->save();
 

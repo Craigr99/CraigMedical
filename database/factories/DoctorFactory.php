@@ -21,7 +21,9 @@ class DoctorFactory extends Factory
      */
     public function definition()
     {
+        // Get a date from 5 years ago to now
         $date = $this->faker->dateTimeBetween($startDate = '-5 years', $endDate = 'now');
+        // format the date DD/MM/YYYY
         $dateFormat = $date->format('Y-m-d');
 
         return [

@@ -32,7 +32,7 @@ class UserSeeder extends Seeder
         $admin->phone_num = '0852785998';
         $admin->password = Hash::make('secret');
         $admin->save();
-        $admin->roles()->attach($role_admin);
+        $admin->roles()->attach($role_admin); // attach admin role
 
         // Doctor users
         $doctor = new User();
@@ -43,7 +43,7 @@ class UserSeeder extends Seeder
         $doctor->phone_num = '0852785998';
         $doctor->password = Hash::make('secret');
         $doctor->save();
-        $doctor->roles()->attach($role_doctor);
+        $doctor->roles()->attach($role_doctor); // attach doctor role
 
         $doctor = new User();
         $doctor->f_name = 'Doctor';
@@ -53,7 +53,7 @@ class UserSeeder extends Seeder
         $doctor->phone_num = '085234546';
         $doctor->password = Hash::make('secret');
         $doctor->save();
-        $doctor->roles()->attach($role_doctor);
+        $doctor->roles()->attach($role_doctor); // attach doctor role
 
         // Patient user
         $patient = new User();
@@ -64,29 +64,29 @@ class UserSeeder extends Seeder
         $patient->phone_num = '0852785998';
         $patient->password = Hash::make('secret');
         $patient->save();
-        $patient->roles()->attach($role_patient);
+        $patient->roles()->attach($role_patient); // attach patient role
 
-        //admins
+        // create admins using user factory
         for ($i = 1; $i <= 3; $i++) {
             $user = User::factory()->create();
-            $user->roles()->attach($role_admin);
+            $user->roles()->attach($role_admin); // attach admin role
         }
 
-        //doctors
+        // create doctors using user factory
         for ($i = 1; $i <= 6; $i++) {
             $user = User::factory()->create();
-            $user->roles()->attach($role_doctor);
+            $user->roles()->attach($role_doctor); // attach doctor role
             $doctor = Doctor::factory()->create([
-                'user_id' => $user->id,
+                'user_id' => $user->id, // create doctors and set doc->user_id to user->id
             ]);
         }
 
-        //patients
+        // create patients using user factory
         for ($i = 1; $i <= 10; $i++) {
             $user = User::factory()->create();
-            $user->roles()->attach($role_patient);
+            $user->roles()->attach($role_patient); // attach patient role
             $patient = Patient::factory()->create([
-                'user_id' => $user->id,
+                'user_id' => $user->id, // create patients and set patients->user_id to user->id
             ]);
         }
     }

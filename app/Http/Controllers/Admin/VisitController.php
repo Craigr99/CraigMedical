@@ -62,7 +62,6 @@ class VisitController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
         $request->validate([
             'date' => 'required|date',
             'time' => 'required|string',
@@ -109,6 +108,7 @@ class VisitController extends Controller
      */
     public function edit($id)
     {
+        // Get the visit and related doctor and patient
         $visit = Visit::findOrFail($id);
         $doctors = Doctor::all();
         $patients = Patient::all();
@@ -150,8 +150,10 @@ class VisitController extends Controller
         $visit->patient_id = $request->input('patient_id');
         $visit->save();
 
-        // Send email to patient saying the visit has been changed
-        Mail::to($patient->email)->send(new AppointmentUpdated($patient, $visit));
+        // Send email to patient saying the visit has been changed, ONLY if the status is active
+        if ($visit->status === "Active") {
+            Mail::to($patient->email)->send(new AppointmentUpdated($patient, $visit));
+        }
 
         $request->session()->flash('info', 'Visit updated successfully!');
 
@@ -170,8 +172,10 @@ class VisitController extends Controller
         $user = Patient::findOrFail($visit->patient_id);
         $patient = User::findOrFail($user->user_id);
 
-        // Send email to patient passing in the patient and visit objects
-        Mail::to($patient->email)->send(new AppointmentCancelled($patient, $visit));
+        // Send email to patient passing in the patient and visit objects if the status is still active
+        if ($visit->status === "Active") {
+            Mail::to($patient->email)->send(new AppointmentCancelled($patient, $visit));
+        }
 
         $visit->delete();
 

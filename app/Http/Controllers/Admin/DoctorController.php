@@ -26,6 +26,7 @@ class DoctorController extends Controller
 
     public function index()
     {
+        // Give the first 10 doctors
         $doctors = Doctor::paginate(10);
 
         return view('admin.doctors.index', [
@@ -70,7 +71,7 @@ class DoctorController extends Controller
             'l_name.required' => 'The surname field is required.', //syntax: field_name.rule
         ];
 
-        //First Validate the form data
+        //First, Validate the form data
         $request->validate($rules, $messages);
         //Create a User
         $user = new User();

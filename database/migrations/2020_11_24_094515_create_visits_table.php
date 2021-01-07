@@ -20,7 +20,7 @@ class CreateVisitsTable extends Migration
             $table->string('date');
             $table->string('time');
             $table->integer('duration')->unsigned();;
-            $table->decimal('cost', 5, 2);
+            $table->decimal('cost', 5, 2); // max 5 digits .00
             $table->timestamps();
 
             $table->foreign('doctor_id')->references('id')->on('doctors')->onUpdate('cascade')->onDelete('restrict');

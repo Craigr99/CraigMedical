@@ -67,8 +67,8 @@ class PatientController extends Controller
 
         //custom validation error messages
         $messages = [
-            'f_name.required' => 'The first name field is required.', //syntax: field_name.rule
-            'l_name.required' => 'The surname field is required.', //syntax: field_name.rule
+            'f_name.required' => 'The first name field is required.',
+            'l_name.required' => 'The surname field is required.',
             'policy_num.required' => 'The policy number field is required.',
             'policy_num.digits' => 'The Policy number must be 13 characters long.',
             'policy_num.numeric' => 'The Policy number must be a number.',
@@ -85,11 +85,11 @@ class PatientController extends Controller
         $user->email = $request->email;
         $user->password = Hash::make('secret');
         $user->save();
+        // Give the user a patient role
         $user->roles()->attach(Role::where('name', 'patient')->first());
 
         // Create a Patient
         $patient = new Patient();
-        // $patient->insurance = $request->insurance;
         // if patient has insurance
         if ($request->insurance === "yes") {
             $patient->insurance = 1; // has health insurance = true
@@ -97,13 +97,13 @@ class PatientController extends Controller
             $patient->policy_num = $request->policy_num;
         } else if ($request->insurance === "no") {
             $patient->insurance = 0; // has health insurance = false
-            $patient->insurance_id = null;
+            $patient->insurance_id = null; // set insurance id to null
         }
 
         $patient->user_id = $user->id;
         $patient->save();
 
-        $request->session()->flash('success', 'Paitent created successfully!');
+        $request->session()->flash('success', 'Patient created successfully!');
 
         return redirect()->route('admin.patients.index');
     }
@@ -170,19 +170,20 @@ class PatientController extends Controller
         $patient = Patient::where('user_id', $id)->first();
         // IF insurance is ticked yes
         if ($request->insurance === "yes") {
-            $patient->insurance = 1;
+            $patient->insurance = 1; // has insurance = true
             $patient->insurance_id = $request->input('insurance_id');
             $patient->policy_num = $request->input('policy_num');
         } else if ($request->insurance === "no") {
-            $patient->insurance = 0;
+            $patient->insurance = 0; // has insurance = false
             //Set insurance values to NULL
             $patient->insurance_id = null;
             $patient->policy_num = null;
         }
+        // Save user and patient objects
         $user->save();
         $patient->save();
 
-        $request->session()->flash('info', 'Paitent updated successfully!');
+        $request->session()->flash('info', 'Patient updated successfully!');
 
         return redirect()->route('admin.patients.index');
     }
@@ -195,15 +196,17 @@ class PatientController extends Controller
      */
     public function destroy(Request $request, $id)
     {
+        // Find the user, patient and their visits
         $patient = Patient::findOrFail($id);
         $visit = Visit::where('patient_id', $patient->id);
         $user = User::where('id', $patient->user_id);
 
+        // delete the patients visits and user
         $visit->delete();
         $patient->delete();
         $user->delete();
 
-        $request->session()->flash('danger', 'Paitent deleted successfully!');
+        $request->session()->flash('danger', 'Patient deleted successfully!');
 
         return redirect()->route('admin.patients.index');
     }

@@ -14,7 +14,7 @@ class AddStatusToVisitsTable extends Migration
     public function up()
     {
         Schema::table('visits', function (Blueprint $table) {
-            $table->string('status')->default('Active');
+            $table->string('status')->default('Active'); // Status defaults to active
         });
     }
 

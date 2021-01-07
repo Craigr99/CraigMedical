@@ -8,17 +8,19 @@ use App\Http\Controllers\Patient\VisitController as PatientVisitController;
 use App\Http\Controllers\VisitController;
 use Illuminate\Support\Facades\Route;
 
+// Test route for viewing mailable class
 Route::get('/mailable', function () {
     $patient = App\Models\User::find(5);
     $visit = App\Models\Visit::first();
 
     return new App\Mail\AppointmentUpdated($patient, $visit);
-});
+})->middleware('auth');
 
+// Routes for authentication
 Auth::routes();
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home'); // Main home
 
 // Visits for each user
 Route::get('/visits', [VisitController::class, 'index'])->name('visits');

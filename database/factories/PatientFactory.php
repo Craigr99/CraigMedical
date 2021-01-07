@@ -22,9 +22,9 @@ class PatientFactory extends Factory
     public function definition()
     {
         return [
-            'insurance' => 1,
-            'policy_num' => $this->faker->numerify('#############'),
-            'insurance_id' => $this->faker->numberBetween($min = 1, $max = 3),
+            'insurance' => 1, // true
+            'policy_num' => $this->faker->numerify('#############'), // random 13 digit number
+            'insurance_id' => $this->faker->numberBetween($min = 1, $max = 3), // random insurance company from 1-3
         ];
     }
 }

@@ -22,7 +22,7 @@ class VisitController extends Controller
     public function index()
     {
         // Vists where doctor_id = current logged in doctor
-        $visits = Visit::where('doctor_id', Auth::user()->doctor->id)->paginate(10);
+        $visits = Visit::where('doctor_id', Auth::user()->doctor->id)->paginate(10); // first 10
         return view('doctor.visits.index', [
             'visits' => $visits,
         ]);
@@ -73,6 +73,7 @@ class VisitController extends Controller
     public function edit($id)
     {
         $visit = Visit::findOrFail($id);
+        // Get All patients for the form dropdown
         $patients = Patient::all();
 
         return view('doctor.visits.edit', [
@@ -103,8 +104,10 @@ class VisitController extends Controller
         $visit->patient_id = $request->input('patient_id');
         $visit->save();
 
-        // Send email to patient saying the visit has been changed
-        Mail::to($patient->email)->send(new AppointmentUpdated($patient, $visit));
+        // Send email to patient saying the visit has been changed, if status is active
+        if ($visit->status === "Active") {
+            Mail::to($patient->email)->send(new AppointmentUpdated($patient, $visit));
+        }
 
         $request->session()->flash('info', 'Visit updated successfully!');
 
@@ -118,7 +121,9 @@ class VisitController extends Controller
         $patient = User::findOrFail($user->user_id);
 
         // Send email to patient passing in the patient and visit objects
-        Mail::to($patient->email)->send(new AppointmentCancelled($patient, $visit));
+        if ($visit->status === "Active") {
+            Mail::to($patient->email)->send(new AppointmentCancelled($patient, $visit));
+        }
 
         $visit->delete();
 
